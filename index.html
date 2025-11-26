@@ -61,7 +61,6 @@
             <!-- Categories / Filter Tabs -->
             <div class="flex gap-2 overflow-x-auto pb-2" id="filterContainer">
                 <button onclick="filterByCategory('all')" class="filter-btn active px-3 py-1.5 rounded-full border border-slate-200 text-sm font-medium text-slate-600 whitespace-nowrap bg-white">الكل</button>
-                <button onclick="filterByCategory('abbreviations')" class="filter-btn px-3 py-1.5 rounded-full border border-slate-200 text-sm font-medium text-slate-600 whitespace-nowrap bg-amber-50 border-amber-200 text-amber-700 hover:bg-amber-100">الاختصارات</button>
                 <button onclick="filterByCategory('general')" class="filter-btn px-3 py-1.5 rounded-full border border-slate-200 text-sm font-medium text-slate-600 whitespace-nowrap bg-white">كلمات عامة</button>
                 <button onclick="filterByCategory('analysis')" class="filter-btn px-3 py-1.5 rounded-full border border-slate-200 text-sm font-medium text-slate-600 whitespace-nowrap bg-white">أدوات التحليل</button>
                 <button onclick="filterByCategory('statements')" class="filter-btn px-3 py-1.5 rounded-full border border-slate-200 text-sm font-medium text-slate-600 whitespace-nowrap bg-white">قوائم ومصطلحات</button>
@@ -100,13 +99,6 @@
 
     <script>
         const termsData = [
-            // ================= اختصارات هامة (Abbreviations) =================
-            { id: 901, term: "COGS", definition: "اختصار لـ Cost of Goods Sold: تكلفة البضاعة المباعة. (تكاليف الإنتاج المباشرة مثل المواد الخام والعمالة).", category: "اختصارات", type: "abbreviations", color: "bg-amber-100 text-amber-800" },
-            { id: 902, term: "SG&A", definition: "اختصار لـ Selling, General & Administrative Expenses: المصاريف البيعية والإدارية والعمومية (مثل الرواتب الإدارية والتسويق).", category: "اختصارات", type: "abbreviations", color: "bg-amber-100 text-amber-800" },
-            { id: 903, term: "EBIT", definition: "اختصار لـ Earnings Before Interest & Taxes: الربح قبل الفوائد والضرائب (ويسمى أيضاً الربح التشغيلي).", category: "اختصارات", type: "abbreviations", color: "bg-amber-100 text-amber-800" },
-            { id: 904, term: "PP&E", definition: "اختصار لـ Property, Plant & Equipment: الممتلكات والمصانع والمعدات (الأصول الثابتة الملموسة).", category: "اختصارات", type: "abbreviations", color: "bg-amber-100 text-amber-800" },
-            { id: 905, term: "EBITDA", definition: "اختصار لـ Earnings Before Interest, Taxes, Depreciation & Amortization: الربح قبل الفوائد والضرائب والإهلاك والاستهلاك (مقياس للكفاءة التشغيلية النقدية).", category: "اختصارات", type: "abbreviations", color: "bg-amber-100 text-amber-800" },
-
             // ================= الكلمات العامة (General) =================
             { id: 1, term: "Determine", definition: "يُحَدِّد أو يقرر (مثل تحديد الصحة المالية).", category: "كلمات عامة", type: "general", color: "bg-slate-100 text-slate-600" },
             { id: 2, term: "Thorough", definition: "شامل أو دقيق (Thorough Analysis).", category: "كلمات عامة", type: "general", color: "bg-slate-100 text-slate-600" },
@@ -131,23 +123,80 @@
             { id: 23, term: "Income Statement", definition: "قائمة الدخل: الإيرادات والمصروفات وصافي الربح.", category: "قوائم مالية", type: "statements", color: "bg-orange-100 text-orange-700" },
 
             // ================= نسب الربحية (Profitability Ratios) =================
-            { id: 101, term: "Gross Profit Margin", definition: "هامش مجمل الربح: الربح بعد خصم تكلفة الإنتاج فقط.", category: "نسب الربحية", type: "profitability", color: "bg-emerald-100 text-emerald-700", formula: "(Net Sales - COGS) ÷ Net Sales" },
-            { id: 102, term: "Operating Profit Margin", definition: "هامش الربح التشغيلي: الربح بعد خصم تكلفة البضاعة والمصاريف الإدارية والعمومية (SG&A).", category: "نسب الربحية", type: "profitability", color: "bg-emerald-100 text-emerald-700", formula: "(Net Sales - COGS - SG&A) ÷ Net Sales" },
+            { 
+                id: 101, 
+                term: "Gross Profit Margin", 
+                definition: "هامش مجمل الربح: الربح بعد خصم تكلفة الإنتاج فقط.", 
+                category: "نسب الربحية", 
+                type: "profitability", 
+                color: "bg-emerald-100 text-emerald-700", 
+                formula: "(Net Sales - COGS) ÷ Net Sales",
+                abbreviations: [
+                    { key: "COGS", full: "Cost of Goods Sold", meaning: "تكلفة البضاعة المباعة" }
+                ]
+            },
+            { 
+                id: 102, 
+                term: "Operating Profit Margin", 
+                definition: "هامش الربح التشغيلي: الربح بعد خصم تكلفة البضاعة والمصاريف الإدارية والعمومية.", 
+                category: "نسب الربحية", 
+                type: "profitability", 
+                color: "bg-emerald-100 text-emerald-700", 
+                formula: "(Net Sales - COGS - SG&A) ÷ Net Sales",
+                abbreviations: [
+                    { key: "COGS", full: "Cost of Goods Sold", meaning: "تكلفة البضاعة المباعة" },
+                    { key: "SG&A", full: "Selling, General & Admin", meaning: "مصاريف بيعية وإدارية" }
+                ]
+            },
             { id: 103, term: "Net Profit Margin", definition: "هامش صافي الربح: الربح النهائي لكل دولار مبيعات.", category: "نسب الربحية", type: "profitability", color: "bg-emerald-100 text-emerald-700", formula: "Net Profits ÷ Net Sales" },
 
-            // ================= نسب الكفاءة (Efficiency Ratios) - UPDATED =================
-            { id: 200, term: "Tax Ratio", definition: "نسبة الضرائب (Effective Tax Rate): النسبة الفعلية للضرائب التي تدفعها الشركة من دخلها.", category: "نسب الكفاءة", type: "efficiency", color: "bg-teal-100 text-teal-700", formula: "Tax Expense ÷ Pre-tax Income" },
+            // ================= نسب الكفاءة (Efficiency Ratios) =================
+            { id: 200, term: "Tax Ratio", definition: "نسبة الضرائب: النسبة الفعلية للضرائب التي تدفعها الشركة.", category: "نسب الكفاءة", type: "efficiency", color: "bg-teal-100 text-teal-700", formula: "Tax Expense ÷ Pre-tax Income" },
             
             { id: 201, term: "Total Asset Turnover", definition: "معدل دوران الأصول: كفاءة استخدام كل أصول الشركة لتوليد المبيعات.", category: "نسب الكفاءة", type: "efficiency", color: "bg-teal-100 text-teal-700", formula: "Revenue ÷ Avg Total Assets" },
-            { id: 202, term: "PP&E Turnover Ratio", definition: "معدل دوران الأصول الثابتة: كفاءة استخدام الممتلكات والمعدات لتوليد المبيعات.", category: "نسب الكفاءة", type: "efficiency", color: "bg-teal-100 text-teal-700", formula: "Sales ÷ Avg Net PP&E" },
+            
+            { 
+                id: 202, 
+                term: "PP&E Turnover Ratio", 
+                definition: "معدل دوران الأصول الثابتة: كفاءة استخدام الممتلكات والمعدات لتوليد المبيعات.", 
+                category: "نسب الكفاءة", 
+                type: "efficiency", 
+                color: "bg-teal-100 text-teal-700", 
+                formula: "Sales ÷ Avg Net PP&E",
+                abbreviations: [
+                    { key: "PP&E", full: "Property, Plant & Equipment", meaning: "ممتلكات ومصانع ومعدات" }
+                ]
+            },
 
-            { id: 203, term: "Inventory Turnover", definition: "معدل دوران المخزون: عدد مرات بيع المخزون وتجديده.", category: "نسب الكفاءة", type: "efficiency", color: "bg-teal-100 text-teal-700", formula: "COGS ÷ Avg Inventory" },
+            { 
+                id: 203, 
+                term: "Inventory Turnover", 
+                definition: "معدل دوران المخزون: عدد مرات بيع المخزون وتجديده.", 
+                category: "نسب الكفاءة", 
+                type: "efficiency", 
+                color: "bg-teal-100 text-teal-700", 
+                formula: "COGS ÷ Avg Inventory",
+                abbreviations: [
+                    { key: "COGS", full: "Cost of Goods Sold", meaning: "تكلفة البضاعة المباعة" }
+                ]
+            },
             { id: 204, term: "Inventory Days", definition: "متوسط فترة التخزين: عدد الأيام التي يظل فيها المخزون قبل بيعه.", category: "نسب الكفاءة", type: "efficiency", color: "bg-teal-100 text-teal-700", formula: "365 ÷ Inventory Turnover" },
 
             { id: 205, term: "Receivables Turnover", definition: "معدل دوران الذمم المدينة: كفاءة تحصيل الديون.", category: "نسب الكفاءة", type: "efficiency", color: "bg-teal-100 text-teal-700", formula: "Credit Sales ÷ Avg Receivables" },
             { id: 206, term: "Receivable Days", definition: "متوسط فترة التحصيل: عدد الأيام اللازمة لتحصيل الأموال من العملاء.", category: "نسب الكفاءة", type: "efficiency", color: "bg-teal-100 text-teal-700", formula: "365 ÷ Receivables Turnover" },
 
-            { id: 207, term: "Payable Turnover", definition: "معدل دوران الذمم الدائنة: معدل سداد الشركة لديونها للموردين.", category: "نسب الكفاءة", type: "efficiency", color: "bg-teal-100 text-teal-700", formula: "COGS ÷ Avg Accounts Payable" },
+            { 
+                id: 207, 
+                term: "Payable Turnover", 
+                definition: "معدل دوران الذمم الدائنة: معدل سداد الشركة لديونها للموردين.", 
+                category: "نسب الكفاءة", 
+                type: "efficiency", 
+                color: "bg-teal-100 text-teal-700", 
+                formula: "COGS ÷ Avg Accounts Payable",
+                abbreviations: [
+                    { key: "COGS", full: "Cost of Goods Sold", meaning: "تكلفة البضاعة المباعة" }
+                ]
+            },
             { id: 208, term: "Payable Days", definition: "متوسط فترة السداد: عدد الأيام التي تستغرقها الشركة لسداد ديونها.", category: "نسب الكفاءة", type: "efficiency", color: "bg-teal-100 text-teal-700", formula: "365 ÷ Payable Turnover" },
 
 
@@ -157,7 +206,18 @@
 
             // ================= نسب الملاءة (Solvency Ratios) =================
             { id: 401, term: "Debt to Equity", definition: "الدين لحقوق الملكية: الاعتماد على الديون مقابل أموال الملاك.", category: "نسب الملاءة", type: "solvency", color: "bg-rose-100 text-rose-700", formula: "Total Liab ÷ Shareholders Equity" },
-            { id: 402, term: "Interest Coverage", definition: "تغطية الفوائد: القدرة على دفع فوائد الديون من الأرباح.", category: "نسب الملاءة", type: "solvency", color: "bg-rose-100 text-rose-700", formula: "EBIT ÷ Interest Expense" }
+            { 
+                id: 402, 
+                term: "Interest Coverage", 
+                definition: "تغطية الفوائد: القدرة على دفع فوائد الديون من الأرباح.", 
+                category: "نسب الملاءة", 
+                type: "solvency", 
+                color: "bg-rose-100 text-rose-700", 
+                formula: "EBIT ÷ Interest Expense",
+                abbreviations: [
+                    { key: "EBIT", full: "Earnings Before Interest & Taxes", meaning: "الربح قبل الفوائد والضرائب" }
+                ]
+            }
         ];
 
         const container = document.getElementById('cardsContainer');
@@ -177,17 +237,41 @@
         }
 
         function createCard(item) {
+            // Generate Formula Section
             const formulaHtml = item.formula ? `
                 <div class="mt-3 pt-3 border-t border-dashed border-slate-200">
                     <div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
                         <i class="fa-solid fa-calculator"></i>
                         <span>المعادلة:</span>
                     </div>
-                    <div class="p-2 bg-slate-50 rounded border border-slate-200 text-center font-mono text-sm text-blue-700 dir-ltr" dir="ltr">
+                    <div class="p-2 bg-slate-50 rounded border border-slate-200 text-center font-mono text-sm text-blue-700 dir-ltr font-bold tracking-tight" dir="ltr">
                         ${item.formula}
                     </div>
                 </div>
             ` : '';
+
+            // Generate Abbreviations Section
+            let abbrevHtml = '';
+            if (item.abbreviations && item.abbreviations.length > 0) {
+                abbrevHtml = `<div class="mt-3 bg-amber-50 rounded-lg p-2 border border-amber-100">
+                    <div class="flex items-center gap-1 text-[10px] text-amber-600 mb-1 font-bold">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span>مفتاح الاختصارات:</span>
+                    </div>`;
+                
+                item.abbreviations.forEach(abbr => {
+                    abbrevHtml += `
+                        <div class="text-xs text-slate-700 flex flex-col mb-1 last:mb-0 border-b border-amber-100 pb-1 last:border-0 last:pb-0">
+                            <div class="flex justify-between items-center dir-ltr" dir="ltr">
+                                <span class="font-bold text-amber-700 font-mono">${abbr.key}</span>
+                                <span class="text-[10px] text-slate-500">${abbr.full}</span>
+                            </div>
+                            <span class="text-[11px] text-right text-slate-600">${abbr.meaning}</span>
+                        </div>
+                    `;
+                });
+                abbrevHtml += `</div>`;
+            }
 
             return `
                 <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm card-hover flex flex-col h-full relative group">
@@ -210,6 +294,7 @@
                     </p>
 
                     ${formulaHtml}
+                    ${abbrevHtml}
                 </div>
             `;
         }
@@ -223,7 +308,6 @@
 
             const titles = {
                 'all': 'كل المصطلحات',
-                'abbreviations': 'الاختصارات المالية',
                 'general': 'الكلمات العامة',
                 'analysis': 'أدوات وأنواع التحليل',
                 'statements': 'قوائم ومصطلحات مالية',

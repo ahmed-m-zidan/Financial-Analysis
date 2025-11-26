@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قاموس المصطلحات المالية الشامل</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { font-family: 'Tajawal', sans-serif; background-color: #f8fafc; }
+        .term-title { font-family: 'Cairo', sans-serif; }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+        
+        .filter-btn { transition: all 0.2s; }
+        .filter-btn.active { background-color: #2563eb; color: white; border-color: #2563eb; }
+        .filter-btn:hover:not(.active) { background-color: #eff6ff; color: #2563eb; }
+        
+        /* Formula Box Style */
+        .formula-box {
+            background-color: #f0f9ff;
+            border: 1px dashed #bae6fd;
+            font-family: 'Courier New', monospace;
+            direction: ltr;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col">
+
+    <!-- Header Section -->
+    <header class="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-20">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-4">
+                <div class="flex items-center gap-3">
+                    <div class="bg-blue-600 w-10 h-10 rounded-lg flex items-center justify-center text-white shadow-lg shadow-blue-200">
+                        <i class="fa-solid fa-book-atlas"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-slate-800 term-title">القاموس المالي الشامل</h1>
+                        <p class="text-xs text-slate-500">مصطلحات، نسب، ومعادلات</p>
+                    </div>
+                </div>
+                
+                <div class="relative w-full md:w-80">
+                    <input type="text" id="searchInput" placeholder="ابحث..." 
+                        class="w-full pr-10 pl-4 py-2 bg-slate-100 border-none rounded-xl text-slate-700 focus:ring-2 focus:ring-blue-500 transition-all outline-none text-sm">
+                    <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                </div>
+            </div>
+
+            <!-- Categories / Filter Tabs -->
+            <div class="flex gap-2 overflow-x-auto pb-2" id="filterContainer">
+                <button onclick="filterByCategory('all')" class="filter-btn active px-3 py-1.5 rounded-full border border-slate-200 text-sm font-medium text-slate-600 whitespace-nowrap bg-white">الكل</button>
+                <button onclick="filterByCategory('abbreviations')" class="filter-btn px-3 py-1.5 rounded-full border border-slate-200 text-sm font-medium text-slate-600 whitespace-nowrap bg-amber-50 border-amber-200 text-amber-700 hover:bg-amber-100">الاختصارات</button>
+                <button onclick="filterByCategory('general')" class="filter-btn px-3 py-1.5 rounded-full border border-slate-200 text-sm font-medium text-slate-600 whitespace-nowrap bg-white">كلمات عامة</button>
+                <button onclick="filterByCategory('analysis')" class="filter-btn px-3 py-1.5 rounded-full border border-slate-200 text-sm font-medium text-slate-600 whitespace-nowrap bg-white">أدوات التحليل</button>
+                <button onclick="filterByCategory('statements')" class="filter-btn px-3 py-1.5 rounded-full border border-slate-200 text-sm font-medium text-slate-600 whitespace-nowrap bg-white">قوائم ومصطلحات</button>
+                <div class="w-px bg-slate-300 mx-1"></div> <!-- Separator -->
+                <button onclick="filterByCategory('profitability')" class="filter-btn px-3 py-1.5 rounded-full border border-slate-200 text-sm font-medium text-slate-600 whitespace-nowrap bg-white">نسب الربحية</button>
+                <button onclick="filterByCategory('efficiency')" class="filter-btn px-3 py-1.5 rounded-full border border-slate-200 text-sm font-medium text-slate-600 whitespace-nowrap bg-white">نسب الكفاءة</button>
+                <button onclick="filterByCategory('liquidity')" class="filter-btn px-3 py-1.5 rounded-full border border-slate-200 text-sm font-medium text-slate-600 whitespace-nowrap bg-white">نسب السيولة</button>
+                <button onclick="filterByCategory('solvency')" class="filter-btn px-3 py-1.5 rounded-full border border-slate-200 text-sm font-medium text-slate-600 whitespace-nowrap bg-white">نسب الملاءة</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8 flex-grow">
+        <div class="mb-6 flex items-center justify-between">
+            <h2 id="sectionTitle" class="text-lg font-bold text-slate-800 term-title border-r-4 border-blue-500 pr-3">كل المصطلحات</h2>
+            <span class="text-xs text-slate-500 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">العدد: <span id="countTerms" class="font-bold text-slate-800">0</span></span>
+        </div>
+
+        <div id="cardsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <!-- Cards Injected Here -->
+        </div>
+
+        <div id="noResults" class="hidden flex-col items-center justify-center py-20 text-center">
+            <div class="bg-slate-100 p-6 rounded-full mb-4">
+                <i class="fa-solid fa-layer-group text-4xl text-slate-400"></i>
+            </div>
+            <h3 class="text-lg font-bold text-slate-700">لا توجد نتائج</h3>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center text-slate-400 text-xs py-6 border-t border-slate-200 bg-white">
+        <p>تم تجميع المصطلحات والنسب لغرض التعليم المالي</p>
+    </footer>
+
+    <script>
+        const termsData = [
+            // ================= اختصارات هامة (Abbreviations) =================
+            { id: 901, term: "COGS", definition: "اختصار لـ Cost of Goods Sold: تكلفة البضاعة المباعة. (تكاليف الإنتاج المباشرة مثل المواد الخام والعمالة).", category: "اختصارات", type: "abbreviations", color: "bg-amber-100 text-amber-800" },
+            { id: 902, term: "SG&A", definition: "اختصار لـ Selling, General & Administrative Expenses: المصاريف البيعية والإدارية والعمومية (مثل الرواتب الإدارية والتسويق).", category: "اختصارات", type: "abbreviations", color: "bg-amber-100 text-amber-800" },
+            { id: 903, term: "EBIT", definition: "اختصار لـ Earnings Before Interest & Taxes: الربح قبل الفوائد والضرائب (ويسمى أيضاً الربح التشغيلي).", category: "اختصارات", type: "abbreviations", color: "bg-amber-100 text-amber-800" },
+            { id: 904, term: "PP&E", definition: "اختصار لـ Property, Plant & Equipment: الممتلكات والمصانع والمعدات (الأصول الثابتة الملموسة).", category: "اختصارات", type: "abbreviations", color: "bg-amber-100 text-amber-800" },
+            { id: 905, term: "EBITDA", definition: "اختصار لـ Earnings Before Interest, Taxes, Depreciation & Amortization: الربح قبل الفوائد والضرائب والإهلاك والاستهلاك (مقياس للكفاءة التشغيلية النقدية).", category: "اختصارات", type: "abbreviations", color: "bg-amber-100 text-amber-800" },
+
+            // ================= الكلمات العامة (General) =================
+            { id: 1, term: "Determine", definition: "يُحَدِّد أو يقرر (مثل تحديد الصحة المالية).", category: "كلمات عامة", type: "general", color: "bg-slate-100 text-slate-600" },
+            { id: 2, term: "Thorough", definition: "شامل أو دقيق (Thorough Analysis).", category: "كلمات عامة", type: "general", color: "bg-slate-100 text-slate-600" },
+            { id: 3, term: "Surrounding", definition: "محيطة (الظروف المحيطة Surrounding circumstances).", category: "كلمات عامة", type: "general", color: "bg-slate-100 text-slate-600" },
+            { id: 4, term: "Rising", definition: "يرتفع / صاعد (للأسعار أو الأرباح).", category: "كلمات عامة", type: "general", color: "bg-slate-100 text-slate-600" },
+            { id: 5, term: "Falling", definition: "ينخفض / هابط.", category: "كلمات عامة", type: "general", color: "bg-slate-100 text-slate-600" },
+            { id: 6, term: "Improving", definition: "يتحسن (تطور إيجابي).", category: "كلمات عامة", type: "general", color: "bg-slate-100 text-slate-600" },
+            { id: 7, term: "Declining", definition: "يتراجع (انخفاض في الأداء).", category: "كلمات عامة", type: "general", color: "bg-slate-100 text-slate-600" },
+
+            // ================= أدوات التحليل (Analysis Tools) =================
+            { id: 10, term: "Technical Analysis", definition: "التحليل الفني: دراسة حركة الأسعار السابقة لتوقع المستقبل.", category: "أنواع التحليل", type: "analysis", color: "bg-indigo-100 text-indigo-700" },
+            { id: 11, term: "Fundamental Analysis", definition: "التحليل الأساسي: تقييم القيمة الحقيقية للشركة بناءً على البيانات المالية.", category: "أنواع التحليل", type: "analysis", color: "bg-indigo-100 text-indigo-700" },
+            { id: 12, term: "Vertical Analysis", definition: "التحليل الرأسي (Common-Size): تحويل الأرقام إلى نسب مئوية من الإجمالي لمقارنة الأحجام المختلفة.", category: "أدوات التحليل", type: "analysis", color: "bg-indigo-100 text-indigo-700" },
+            { id: 13, term: "Horizontal Analysis", definition: "التحليل الأفقي (Trend): مقارنة أداء الشركة عبر الزمن باستخدام (سنة الأساس) و (معدلات النمو).", category: "أدوات التحليل", type: "analysis", color: "bg-indigo-100 text-indigo-700" },
+            { id: 14, term: "Annual Growth Rates", definition: "معدلات النمو السنوي: نسبة التغير في رقم مالي مقارنة بالسنة السابقة.", category: "أدوات التحليل", type: "analysis", color: "bg-indigo-100 text-indigo-700" },
+            { id: 15, term: "Base Year", definition: "سنة الأساس: السنة المرجعية في التحليل الأفقي (تساوي 100%).", category: "أدوات التحليل", type: "analysis", color: "bg-indigo-100 text-indigo-700" },
+
+            // ================= قوائم ومصطلحات مالية (Statements & Terms) =================
+            { id: 20, term: "Financial Health", definition: "الصحة المالية: الحالة العامة لاستقرار الشركة.", category: "مصطلحات", type: "statements", color: "bg-purple-100 text-purple-700" },
+            { id: 21, term: "Intrinsic Value", definition: "القيمة الجوهرية: القيمة الحقيقية للسهم (العادلة).", category: "مصطلحات", type: "statements", color: "bg-purple-100 text-purple-700" },
+            { id: 22, term: "Balance Sheet", definition: "الميزانية العمومية: أصول وخصوم الشركة في لحظة معينة.", category: "قوائم مالية", type: "statements", color: "bg-orange-100 text-orange-700" },
+            { id: 23, term: "Income Statement", definition: "قائمة الدخل: الإيرادات والمصروفات وصافي الربح.", category: "قوائم مالية", type: "statements", color: "bg-orange-100 text-orange-700" },
+
+            // ================= نسب الربحية (Profitability Ratios) =================
+            { id: 101, term: "Gross Profit Margin", definition: "هامش مجمل الربح: الربح بعد خصم تكلفة الإنتاج فقط.", category: "نسب الربحية", type: "profitability", color: "bg-emerald-100 text-emerald-700", formula: "(Net Sales - COGS) ÷ Net Sales" },
+            { id: 102, term: "Operating Profit Margin", definition: "هامش الربح التشغيلي: الربح بعد خصم تكلفة البضاعة والمصاريف الإدارية والعمومية (SG&A).", category: "نسب الربحية", type: "profitability", color: "bg-emerald-100 text-emerald-700", formula: "(Net Sales - COGS - SG&A) ÷ Net Sales" },
+            { id: 103, term: "Net Profit Margin", definition: "هامش صافي الربح: الربح النهائي لكل دولار مبيعات.", category: "نسب الربحية", type: "profitability", color: "bg-emerald-100 text-emerald-700", formula: "Net Profits ÷ Net Sales" },
+
+            // ================= نسب الكفاءة (Efficiency Ratios) - UPDATED =================
+            { id: 200, term: "Tax Ratio", definition: "نسبة الضرائب (Effective Tax Rate): النسبة الفعلية للضرائب التي تدفعها الشركة من دخلها.", category: "نسب الكفاءة", type: "efficiency", color: "bg-teal-100 text-teal-700", formula: "Tax Expense ÷ Pre-tax Income" },
+            
+            { id: 201, term: "Total Asset Turnover", definition: "معدل دوران الأصول: كفاءة استخدام كل أصول الشركة لتوليد المبيعات.", category: "نسب الكفاءة", type: "efficiency", color: "bg-teal-100 text-teal-700", formula: "Revenue ÷ Avg Total Assets" },
+            { id: 202, term: "PP&E Turnover Ratio", definition: "معدل دوران الأصول الثابتة: كفاءة استخدام الممتلكات والمعدات لتوليد المبيعات.", category: "نسب الكفاءة", type: "efficiency", color: "bg-teal-100 text-teal-700", formula: "Sales ÷ Avg Net PP&E" },
+
+            { id: 203, term: "Inventory Turnover", definition: "معدل دوران المخزون: عدد مرات بيع المخزون وتجديده.", category: "نسب الكفاءة", type: "efficiency", color: "bg-teal-100 text-teal-700", formula: "COGS ÷ Avg Inventory" },
+            { id: 204, term: "Inventory Days", definition: "متوسط فترة التخزين: عدد الأيام التي يظل فيها المخزون قبل بيعه.", category: "نسب الكفاءة", type: "efficiency", color: "bg-teal-100 text-teal-700", formula: "365 ÷ Inventory Turnover" },
+
+            { id: 205, term: "Receivables Turnover", definition: "معدل دوران الذمم المدينة: كفاءة تحصيل الديون.", category: "نسب الكفاءة", type: "efficiency", color: "bg-teal-100 text-teal-700", formula: "Credit Sales ÷ Avg Receivables" },
+            { id: 206, term: "Receivable Days", definition: "متوسط فترة التحصيل: عدد الأيام اللازمة لتحصيل الأموال من العملاء.", category: "نسب الكفاءة", type: "efficiency", color: "bg-teal-100 text-teal-700", formula: "365 ÷ Receivables Turnover" },
+
+            { id: 207, term: "Payable Turnover", definition: "معدل دوران الذمم الدائنة: معدل سداد الشركة لديونها للموردين.", category: "نسب الكفاءة", type: "efficiency", color: "bg-teal-100 text-teal-700", formula: "COGS ÷ Avg Accounts Payable" },
+            { id: 208, term: "Payable Days", definition: "متوسط فترة السداد: عدد الأيام التي تستغرقها الشركة لسداد ديونها.", category: "نسب الكفاءة", type: "efficiency", color: "bg-teal-100 text-teal-700", formula: "365 ÷ Payable Turnover" },
+
+
+            // ================= نسب السيولة (Liquidity Ratios) =================
+            { id: 301, term: "Current Ratio", definition: "النسبة المتداولة: القدرة على سداد الديون القريبة بالأصول القريبة.", category: "نسب السيولة", type: "liquidity", color: "bg-blue-100 text-blue-700", formula: "Current Assets ÷ Current Liab" },
+            { id: 302, term: "Quick Ratio", definition: "النسبة السريعة: السيولة بدون احتساب المخزون (أكثر تحفظاً).", category: "نسب السيولة", type: "liquidity", color: "bg-blue-100 text-blue-700", formula: "(Curr Assets - Inv) ÷ Curr Liab" },
+
+            // ================= نسب الملاءة (Solvency Ratios) =================
+            { id: 401, term: "Debt to Equity", definition: "الدين لحقوق الملكية: الاعتماد على الديون مقابل أموال الملاك.", category: "نسب الملاءة", type: "solvency", color: "bg-rose-100 text-rose-700", formula: "Total Liab ÷ Shareholders Equity" },
+            { id: 402, term: "Interest Coverage", definition: "تغطية الفوائد: القدرة على دفع فوائد الديون من الأرباح.", category: "نسب الملاءة", type: "solvency", color: "bg-rose-100 text-rose-700", formula: "EBIT ÷ Interest Expense" }
+        ];
+
+        const container = document.getElementById('cardsContainer');
+        const searchInput = document.getElementById('searchInput');
+        const noResults = document.getElementById('noResults');
+        const countDisplay = document.getElementById('countTerms');
+        const sectionTitle = document.getElementById('sectionTitle');
+        let currentFilter = 'all';
+
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function createCard(item) {
+            const formulaHtml = item.formula ? `
+                <div class="mt-3 pt-3 border-t border-dashed border-slate-200">
+                    <div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
+                        <i class="fa-solid fa-calculator"></i>
+                        <span>المعادلة:</span>
+                    </div>
+                    <div class="p-2 bg-slate-50 rounded border border-slate-200 text-center font-mono text-sm text-blue-700 dir-ltr" dir="ltr">
+                        ${item.formula}
+                    </div>
+                </div>
+            ` : '';
+
+            return `
+                <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm card-hover flex flex-col h-full relative group">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="px-2.5 py-1 rounded-md text-[10px] font-bold tracking-wide ${item.color}">
+                            ${item.category}
+                        </span>
+                        <button onclick="speak('${item.term}')" 
+                            class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:bg-blue-600 hover:text-white transition-colors">
+                            <i class="fa-solid fa-volume-high text-xs"></i>
+                        </button>
+                    </div>
+                    
+                    <h2 class="text-lg font-bold text-slate-800 mb-2 text-left dir-ltr font-[Cairo]" dir="ltr">
+                        ${item.term}
+                    </h2>
+                    
+                    <p class="text-slate-600 text-sm leading-relaxed flex-grow">
+                        ${item.definition}
+                    </p>
+
+                    ${formulaHtml}
+                </div>
+            `;
+        }
+
+        function filterByCategory(type) {
+            currentFilter = type;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.getAttribute('onclick').includes(type)) btn.classList.add('active');
+            });
+
+            const titles = {
+                'all': 'كل المصطلحات',
+                'abbreviations': 'الاختصارات المالية',
+                'general': 'الكلمات العامة',
+                'analysis': 'أدوات وأنواع التحليل',
+                'statements': 'قوائم ومصطلحات مالية',
+                'profitability': 'نسب الربحية (Performance)',
+                'efficiency': 'نسب الكفاءة (Performance)',
+                'liquidity': 'نسب السيولة (Leverage)',
+                'solvency': 'نسب الملاءة (Leverage)'
+            };
+            sectionTitle.innerText = titles[type] || 'المصطلحات';
+            renderTerms(searchInput.value);
+        }
+
+        function renderTerms(searchText = '') {
+            container.innerHTML = '';
+            const filtered = termsData.filter(item => {
+                const matchesSearch = item.term.toLowerCase().includes(searchText.toLowerCase()) || item.definition.includes(searchText);
+                const matchesType = currentFilter === 'all' || item.type === currentFilter;
+                return matchesSearch && matchesType;
+            });
+
+            countDisplay.innerText = filtered.length;
+            if (filtered.length === 0) {
+                noResults.classList.remove('hidden');
+                noResults.classList.add('flex');
+            } else {
+                noResults.classList.add('hidden');
+                noResults.classList.remove('flex');
+                filtered.forEach(item => container.innerHTML += createCard(item));
+            }
+        }
+
+        searchInput.addEventListener('input', (e) => renderTerms(e.target.value));
+        renderTerms();
+    </script>
+</body>
+</html>

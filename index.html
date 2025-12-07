@@ -63,9 +63,21 @@
             <!-- Categories / Filter Tabs -->
             <div class="flex gap-2 overflow-x-auto pb-4 pt-2" id="filterContainer">
                 
-                <button onclick="filterByCategory('all')" class="filter-btn active px-4 py-2 rounded-xl border border-slate-200 text-slate-600 bg-white flex flex-col items-center justify-center min-w-[80px] hover:shadow-md transition-all">
-                    <span class="font-bold text-sm">الكل</span>
-                    <span class="text-[10px] font-normal opacity-80">All</span>
+                <button onclick="filterByCategory('financial_terms')" class="filter-btn active px-4 py-2 rounded-xl border border-slate-200 text-slate-600 bg-white flex flex-col items-center justify-center min-w-[120px] hover:shadow-md transition-all">
+                    <span class="font-bold text-sm">مصطلحات</span>
+                    <span class="text-[10px] font-normal opacity-80">Terms</span>
+                </button>
+
+                <div class="w-px bg-slate-300 mx-1 self-center h-8"></div> <!-- Separator -->
+
+                <button onclick="filterByCategory('solvency')" class="filter-btn px-4 py-2 rounded-xl border border-slate-200 text-slate-600 bg-white flex flex-col items-center justify-center min-w-[110px] hover:shadow-md transition-all">
+                    <span class="font-bold text-sm">نسب الملاءة</span>
+                    <span class="text-[10px] font-normal opacity-80">Solvency Ratios</span>
+                </button>
+
+                <button onclick="filterByCategory('liquidity')" class="filter-btn px-4 py-2 rounded-xl border border-slate-200 text-slate-600 bg-white flex flex-col items-center justify-center min-w-[110px] hover:shadow-md transition-all">
+                    <span class="font-bold text-sm">نسب السيولة</span>
+                    <span class="text-[10px] font-normal opacity-80">Liquidity Ratios</span>
                 </button>
 
                 <button onclick="filterByCategory('analysis')" class="filter-btn px-4 py-2 rounded-xl border border-slate-200 text-slate-600 bg-white flex flex-col items-center justify-center min-w-[110px] hover:shadow-md transition-all">
@@ -73,23 +85,14 @@
                     <span class="text-[10px] font-normal opacity-80">Analysis Tools</span>
                 </button>
 
-                <div class="w-px bg-slate-300 mx-1 self-center h-8"></div> <!-- Separator -->
-
                 <button onclick="filterByCategory('profitability')" class="filter-btn px-4 py-2 rounded-xl border border-slate-200 text-slate-600 bg-white flex flex-col items-center justify-center min-w-[120px] hover:shadow-md transition-all">
                     <span class="font-bold text-sm">نسب الربحية</span>
-                    <span class="text-[10px] font-normal opacity-80">Profitability Ratios</span>
+                    <span class="text-[10px] font-normal opacity-80">Profitability</span>
                 </button>
 
                 <button onclick="filterByCategory('efficiency')" class="filter-btn px-4 py-2 rounded-xl border border-slate-200 text-slate-600 bg-white flex flex-col items-center justify-center min-w-[110px] hover:shadow-md transition-all">
                     <span class="font-bold text-sm">نسب الكفاءة</span>
-                    <span class="text-[10px] font-normal opacity-80">Efficiency Ratios</span>
-                </button>
-
-                <div class="w-px bg-slate-300 mx-1 self-center h-8"></div> <!-- Separator -->
-
-                <button onclick="filterByCategory('financial_terms')" class="filter-btn px-4 py-2 rounded-xl border border-slate-200 text-slate-600 bg-white flex flex-col items-center justify-center min-w-[120px] hover:shadow-md transition-all">
-                    <span class="font-bold text-sm">مصطلحات مالية</span>
-                    <span class="text-[10px] font-normal opacity-80">Financial Terms</span>
+                    <span class="text-[10px] font-normal opacity-80">Efficiency</span>
                 </button>
 
             </div>
@@ -99,7 +102,7 @@
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-8 flex-grow">
         <div class="mb-6 flex items-center justify-between">
-            <h2 id="sectionTitle" class="text-lg font-bold text-slate-800 term-title border-r-4 border-blue-500 pr-3">كل المصطلحات</h2>
+            <h2 id="sectionTitle" class="text-lg font-bold text-slate-800 term-title border-r-4 border-blue-500 pr-3">مصطلحات مالية عامة</h2>
             <span class="text-xs text-slate-500 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">العدد: <span id="countTerms" class="font-bold text-slate-800">0</span></span>
         </div>
 
@@ -123,8 +126,75 @@
     <script>
         const termsData = [
             // ================= مصطلحات مالية (مدمجة) =================
-            // الكلمات العامة سابقاً
-            { id: 1, term: "Determine", definition: "يُحَدِّد أو يقرر (مثل تحديد الصحة المالية).", category: "مصطلحات مالية", type: "financial_terms", color: "bg-slate-100 text-slate-600" },
+            // --- الإضافات الجديدة من الصور (مفصلة) ---
+            
+            // 1. Types of Loans
+            { 
+                id: 1001, 
+                term: "Types of Loans", 
+                definition: "أنواع القروض الشائعة:\n\n1️⃣ **Term Loans:** قروض بأجل استحقاق محدد وتتضمن عادة سداداً دورياً لأصل الدين.\n2️⃣ **Revolving Credit Facilities:** تسهيلات ائتمانية متجددة تمنح المقترض الحق (وليس الالتزام) بسحب القرض عند الحاجة.\n3️⃣ **Standby Facilities:** خطوط ائتمان تُستخدم فقط في الظروف الاستثنائية.\n4️⃣ **Leasing:** التأجير التمويلي، حيث يظل الأصل ملكاً للمؤجر.", 
+                category: "مصطلحات مالية", 
+                type: "financial_terms", 
+                color: "bg-purple-100 text-purple-700" 
+            },
+
+            // 2. Bond Interest Types
+            { 
+                id: 1002, 
+                term: "Bond Interest Types", 
+                definition: "أنواع الفائدة على السندات:\n\n1️⃣ **Fixed Rate:** سندات ذات عائد ثابت (كوبون ثابت) طوال فترة السند.\n2️⃣ **Floating Rate:** سندات ذات عائد متغير مرتبط بمؤشر سعر فائدة (مثل LIBOR).\n3️⃣ **Zero Coupon:** سندات لا تدفع فوائد دورية، وتُباع بخصم من قيمتها الاسمية (الربح هو الفرق عند الاستحقاق).\n4️⃣ **Callable:** سندات يحق للمصدر استردادها (سدادها) قبل تاريخ الاستحقاق.", 
+                category: "مصطلحات مالية", 
+                type: "financial_terms", 
+                color: "bg-purple-100 text-purple-700" 
+            },
+
+            // 3. Special Bonds
+            { 
+                id: 1003, 
+                term: "Convertible & Warrant Bonds", 
+                definition: "السندات ذات الميزات الخاصة:\n\n1️⃣ **Convertible Bonds (سندات قابلة للتحويل):**\n- تصدر للعامة.\n- يمكن استبدالها بأسهم عادية في الشركة المصدرة.\n\n2️⃣ **Bonds with Warrants (سندات مع خيارات شراء):**\n- شائعة في الطرح الخاص.\n- يمكن فصل 'الخيار' (Warrant) وبيعه بشكل منفصل.\n- تحصل الشركة على نقد إضافي عندما يمارس حامل السند حقه في شراء الأسهم.", 
+                category: "مصطلحات مالية", 
+                type: "financial_terms", 
+                color: "bg-purple-100 text-purple-700" 
+            },
+
+            { 
+                id: 1004, 
+                term: "Debt Financing Overview", 
+                definition: "خيارات التمويل بالديون حسب الغرض:\n\n🔹 **لتمويل رأس المال العامل (Operations):**\n- السحب على المكشوف (Overdraft).\n- خطوط الائتمان التشغيلية.\n\n🔹 **لشراء الأصول (Assets):**\n- القروض لأجل (Term Loans).", 
+                category: "مصطلحات مالية", 
+                type: "financial_terms", 
+                color: "bg-purple-100 text-purple-700" 
+            },
+
+
+            { 
+                id: 999, 
+                term: "Debt (IBL)", 
+                definition: "في سياق نسب الملاءة (Solvency)، كلمة Debt لا تعني إجمالي الخصوم (Total Liabilities)، بل تعني تحديداً **الالتزامات المحملة بالفوائد** مثل القروض والسندات.\n\nوهي لا تشمل الالتزامات التشغيلية مثل حسابات الموردين (Accounts Payable).", 
+                category: "مصطلحات مالية", 
+                type: "financial_terms", 
+                color: "bg-purple-100 text-purple-700",
+                abbreviations: [
+                    { key: "IBL", full: "Interest-Bearing Liabilities", meaning: "الالتزامات المحملة بالفائدة" }
+                ]
+            },
+            
+            // --- (CAPM) ---
+            { 
+                id: 1000, 
+                term: "CAPM", 
+                definition: "نموذج تسعير الأصول الرأسمالية (Capital Asset Pricing Model): هو نموذج يستخدم لتحديد معدل العائد المتوقع المناسب للأصل (مثل الأسهم) بناءً على مخاطره.\n\n💡 **ملاحظة:** ورد في الملاحظات ارتباطه بـ **Sharpe** (نسبة شارب)، وكلاهما من أدوات قياس العائد المعدل بالمخاطر (Risk-Adjusted Return)، حيث يساعدان المستثمر على معرفة ما إذا كان العائد يستحق المخاطرة.", 
+                category: "مصطلحات مالية", 
+                type: "financial_terms", 
+                color: "bg-purple-100 text-purple-700",
+                abbreviations: [
+                    { key: "CAPM", full: "Capital Asset Pricing Model", meaning: "نموذج تسعير الأصول الرأسمالية" },
+                    { key: "Sharpe", full: "Sharpe Ratio", meaning: "نسبة شارب (العائد مقابل التقلب)" }
+                ]
+            },
+
+            { id: 1, term: "Determine", definition: "يُحَدِّد أو يقرر (مثل تحديد الصحة المالية).", category: "مصطلحات مالية", type: "financial_terms", color: "bg-slate-100 text-slate-600" },
             { id: 2, term: "Thorough", definition: "شامل أو دقيق (Thorough Analysis).", category: "مصطلحات مالية", type: "financial_terms", color: "bg-slate-100 text-slate-600" },
             { id: 3, term: "Surrounding", definition: "محيطة (الظروف المحيطة Surrounding circumstances).", category: "مصطلحات مالية", type: "financial_terms", color: "bg-slate-100 text-slate-600" },
             { id: 4, term: "Rising", definition: "يرتفع / صاعد (للأسعار أو الأرباح).", category: "مصطلحات مالية", type: "financial_terms", color: "bg-slate-100 text-slate-600" },
@@ -132,17 +202,100 @@
             { id: 6, term: "Improving", definition: "يتحسن (تطور إيجابي).", category: "مصطلحات مالية", type: "financial_terms", color: "bg-slate-100 text-slate-600" },
             { id: 7, term: "Declining", definition: "يتراجع (انخفاض في الأداء).", category: "مصطلحات مالية", type: "financial_terms", color: "bg-slate-100 text-slate-600" },
             
-            // القوائم والمصطلحات سابقاً (تم نقلها هنا)
             { id: 20, term: "Financial Health", definition: "الصحة المالية: الحالة العامة لاستقرار الشركة.", category: "مصطلحات مالية", type: "financial_terms", color: "bg-purple-100 text-purple-700" },
             { id: 21, term: "Intrinsic Value", definition: "القيمة الجوهرية: القيمة الحقيقية للسهم (العادلة).", category: "مصطلحات مالية", type: "financial_terms", color: "bg-purple-100 text-purple-700" },
             { id: 22, term: "Balance Sheet", definition: "الميزانية العمومية: أصول وخصوم الشركة في لحظة معينة.", category: "قوائم مالية", type: "financial_terms", color: "bg-orange-100 text-orange-700" },
             { id: 23, term: "Income Statement", definition: "قائمة الدخل: الإيرادات والمصروفات وصافي الربح.", category: "قوائم مالية", type: "financial_terms", color: "bg-orange-100 text-orange-700" },
 
+            // ================= نسب الملاءة (Solvency Ratios) =================
+            { 
+                id: 401, 
+                term: "Debt to Equity (or Debt to Capital)", 
+                definition: "نسبة الدين إلى حقوق الملكية: تقيس نسبة التمويل المقدم من الدائنين مقابل المساهمين.\n\n⚠️ **المؤشر:** إذا كانت النسبة **أكبر من 100% (أو 1)**، فهذا يعني أن تمويل المؤسسة يعتمد على الديون بشكل أكبر من حقوق الملكية، مما يزيد المخاطر المالية.", 
+                category: "نسب الملاءة", 
+                type: "solvency", 
+                color: "bg-rose-100 text-rose-700", 
+                formula: "Interest Bearing Liabilities ÷ Total Shareholder's Equity",
+                abbreviations: [
+                    { key: "Interest Bearing", full: "Loans, Bonds, etc.", meaning: "الالتزامات المحملة بالفائدة فقط" }
+                ]
+            },
+            { 
+                id: 402, 
+                term: "Debt to TNW", 
+                definition: "نسبة الدين إلى صافي القيمة الملموسة: تقارن الديون بصافي حقوق الملكية بعد استبعاد الأصول غير الملموسة (مثل الشهرة وبراءات الاختراع).\n\n✅ **المعيار:** نسبة **1** تعتبر معقولة.\n⚠️ إذا زادت عن **1**، يجب الانتباه لكيفية إدارة الشركة لأنشطتها التمويلية.", 
+                category: "نسب الملاءة", 
+                type: "solvency", 
+                color: "bg-rose-100 text-rose-700", 
+                formula: "Interest Bearing Liabilities ÷ (Equity - Intangible Assets)",
+                abbreviations: [
+                    { key: "TNW", full: "Tangible Net Worth", meaning: "صافي القيمة الملموسة" }
+                ]
+            },
+            { 
+                id: 403, 
+                term: "Debt to EBITDA", 
+                definition: "نسبة الدين إلى الأرباح (EBITDA): تُستخدم لتقييم حجم الرافعة المالية (الديون) مقارنة بالأرباح التشغيلية النقدية.\n\nتُستخدم هذه النسبة بشكل شائع من قبل المقرضين والبنوك.\nتتراوح النسبة المقبولة عادة بين **1 إلى 5 مرات** حسب نوع الصناعة.", 
+                category: "نسب الملاءة", 
+                type: "solvency", 
+                color: "bg-rose-100 text-rose-700", 
+                formula: "Interest Bearing Liabilities ÷ EBITDA",
+                abbreviations: [
+                    { key: "EBITDA", full: "Earnings Before Interest, Taxes, Depreciation & Amortization", meaning: "الأرباح قبل الفوائد والضرائب والإهلاك والاستهلاك" }
+                ]
+            },
+            { 
+                id: 404, 
+                term: "Total Liabilities to Equity", 
+                definition: "إجمالي الالتزامات إلى حقوق الملكية: تأخذ في الاعتبار كل الالتزامات (التشغيلية والتمويلية).\n\nتُستخدم جنباً إلى جنب مع نسبة الدين إلى حقوق الملكية لتحديد تأثير **الالتزامات التشغيلية** (مثل حسابات الموردين) على تمويل الشركة.", 
+                category: "نسب الملاءة", 
+                type: "solvency", 
+                color: "bg-rose-100 text-rose-700", 
+                formula: "Total Liabilities ÷ Equity" 
+            },
+            { 
+                id: 405, 
+                term: "Total Assets to Equity", 
+                definition: "إجمالي الأصول إلى حقوق الملكية (مضاعف حقوق الملكية - Equity Multiplier).\n\n📉 **منخفضة:** الشركة قد تكون غير مستغلة للرافعة المالية (Underleveraged).\n📈 **مرتفعة:** الشركة تستفيد من الديون لزيادة الأصول، لكنها قد تكون مثقلة بالديون (Over-levered) مما يزيد المخاطر.", 
+                category: "نسب الملاءة", 
+                type: "solvency", 
+                color: "bg-rose-100 text-rose-700", 
+                formula: "Total Assets ÷ Equity" 
+            },
+
+            // ================= نسب السيولة (Liquidity Ratios) =================
+            { 
+                id: 301, 
+                term: "Current Ratio", 
+                definition: "نسبة التداول: تقيس قدرة الشركة على الوفاء بالتزاماتها قصيرة الأجل المستحقة خلال عام.\n\n✅ **قاعدة عامة:** إذا كانت النسبة **أكبر من 1**، فهذا يعتبر مؤشراً جيداً وصحياً، حيث يعني أن أصول الشركة المتداولة كافية لتغطية التزاماتها.\n\nوهي تشير إلى الصحة المالية للشركة وكيف يمكنها تعظيم سيولة أصولها المتداولة لتسوية الديون والذمم الدائنة.", 
+                category: "نسب السيولة", 
+                type: "liquidity", 
+                color: "bg-cyan-100 text-cyan-700", 
+                formula: "Current Assets ÷ Current Liabilities" 
+            },
+            { 
+                id: 302, 
+                term: "Quick Ratio (Acid Test)", 
+                definition: "النسبة السريعة (اختبار الحموضة): تُعتبر أكثر فائدة من نسبة التداول المستخدمة غالباً، نظراً لأن النسبة السريعة تستبعد المخزون، الذي قد يكون من الصعب تسييله (بيعه) بسرعة.", 
+                category: "نسب السيولة", 
+                type: "liquidity", 
+                color: "bg-cyan-100 text-cyan-700", 
+                formula: "(Current Assets - Inventory) ÷ Current Liabilities" 
+            },
+            { 
+                id: 303, 
+                term: "Cash Ratio", 
+                definition: "نسبة النقدية: تعتبر المقياس الأكثر تحفظاً للسيولة، حيث تقيس قدرة الشركة على سداد التزاماتها المتداولة فوراً.\n\n💡 **ما هي النقدية وما في حكمها (Cash Equivalents)؟**\nهي الأصول عالية السيولة التي يمكن تحويلها لنقد بسهولة وسرعة (عادة خلال 3 أشهر أو أقل)، وتشمل:\n1. النقد في الخزينة والبنوك.\n2. أذونات الخزانة (Treasury Bills).\n3. صناديق أسواق النقد.\n\nمثال:\n(نقد $20,000 + نقد مكافئ $10,000) ÷ التزامات $50,000 = 0.6", 
+                category: "نسب السيولة", 
+                type: "liquidity", 
+                color: "bg-cyan-100 text-cyan-700", 
+                formula: "(Cash + Cash Equivalents) ÷ Current Liabilities" 
+            },
+
             // ================= أدوات التحليل (Analysis Tools) =================
             { id: 10, term: "Technical Analysis", definition: "التحليل الفني: دراسة حركة الأسعار السابقة لتوقع المستقبل.", category: "أنواع التحليل", type: "analysis", color: "bg-indigo-100 text-indigo-700" },
             { id: 11, term: "Fundamental Analysis", definition: "التحليل الأساسي: تقييم القيمة الحقيقية للشركة بناءً على البيانات المالية.", category: "أنواع التحليل", type: "analysis", color: "bg-indigo-100 text-indigo-700" },
             { id: 12, term: "Vertical Analysis", definition: "التحليل الرأسي (Common-Size): تحويل الأرقام إلى نسب مئوية من الإجمالي لمقارنة الأحجام المختلفة.", category: "أدوات التحليل", type: "analysis", color: "bg-indigo-100 text-indigo-700" },
-            
             { 
                 id: 13, 
                 term: "Horizontal Analysis", 
@@ -156,7 +309,6 @@
                     { key: "CAGR", full: "Compound Annual Growth Rate", meaning: "معدل النمو السنوي المركب" }
                 ]
             },
-            // تم حذف بطاقات Annual Growth Rates و Base Year ودمجها في الأعلى
 
             // ================= نسب الربحية (Profitability Ratios) =================
             { 
@@ -185,8 +337,6 @@
                 ]
             },
             { id: 103, term: "Net Profit Margin", definition: "هامش صافي الربح: الربح النهائي لكل دولار مبيعات.", category: "نسب الربحية", type: "profitability", color: "bg-emerald-100 text-emerald-700", formula: "Net Profits ÷ Net Sales" },
-            
-            // --- الإضافات الجديدة (ROE & ROA) ---
             { 
                 id: 104, 
                 term: "Return on Assets (ROA)", 
@@ -225,7 +375,6 @@
                     { key: "EBT", full: "Earnings Before Taxes", meaning: "الأرباح قبل الضرائب" }
                 ]
             },
-            
             { 
                 id: 201, 
                 term: "Total Asset Turnover Ratio", 
@@ -238,7 +387,6 @@
                     { key: "Av. Assets", full: "(Beginning + Ending) ÷ 2", meaning: "متوسط الأصول = (أول المدة + آخر المدة) ÷ 2" }
                 ]
             },
-            
             { 
                 id: 202, 
                 term: "PP&E Turnover Ratio", 
@@ -252,8 +400,6 @@
                     { key: "Av. PP&E", full: "(Beginning + Ending) ÷ 2", meaning: "متوسط الأصول الثابتة" }
                 ]
             },
-
-            // --- Inventory Ratios (Updated) ---
             { 
                 id: 203, 
                 term: "Inventory Turnover Ratio", 
@@ -279,8 +425,6 @@
                     { key: "Note", full: "Lower is generally better", meaning: "كلما قلت الأيام كان أفضل (بيع أسرع)" }
                 ]
             },
-
-            // --- Receivable Ratios (Updated) ---
             { 
                 id: 205, 
                 term: "Receivable Turnover Ratio", 
@@ -306,8 +450,6 @@
                     { key: "AR", full: "Accounts Receivable", meaning: "الذمم المدينة" }
                 ]
             },
-
-            // --- Payable Ratios (Updated with BASE Rule) ---
             { 
                 id: 207, 
                 term: "Accounts Payable Turnover", 
@@ -331,8 +473,6 @@
                 color: "bg-teal-100 text-teal-700", 
                 formula: "Days in year ÷ Payable Turnover ratio" 
             },
-
-            // --- Working Capital (Existing) ---
             { 
                 id: 209, 
                 term: "Working Capital", 
@@ -342,9 +482,6 @@
                 color: "bg-teal-100 text-teal-700", 
                 formula: "Current Assets - Current Liabilities" 
             },
-
-            // ================= نسب السيولة (Liquidity Ratios) - REMOVED =================
-            // ================= نسب الملاءة (Solvency Ratios) - REMOVED =================
         ];
 
         const container = document.getElementById('cardsContainer');
@@ -352,7 +489,9 @@
         const noResults = document.getElementById('noResults');
         const countDisplay = document.getElementById('countTerms');
         const sectionTitle = document.getElementById('sectionTitle');
-        let currentFilter = 'all';
+        
+        // تعيين الافتراضي إلى "مصطلحات" لرؤية البطاقة الجديدة مباشرة
+        let currentFilter = 'financial_terms';
 
         function speak(text) {
             if ('speechSynthesis' in window) {
@@ -434,13 +573,12 @@
             });
 
             const titles = {
-                'all': 'كل المصطلحات',
-                'financial_terms': 'مصطلحات مالية عامة',
                 'analysis': 'أدوات وأنواع التحليل',
+                'liquidity': 'نسب السيولة (Liquidity Ratios)',
                 'profitability': 'نسب الربحية (Performance)',
                 'efficiency': 'نسب الكفاءة (Performance)',
-                'liquidity': 'نسب السيولة (Leverage)',
-                'solvency': 'نسب الملاءة (Leverage)'
+                'solvency': 'نسب الملاءة (Solvency Ratios)',
+                'financial_terms': 'مصطلحات مالية عامة'
             };
             sectionTitle.innerText = titles[type] || 'المصطلحات';
             renderTerms(searchInput.value);
@@ -450,7 +588,8 @@
             container.innerHTML = '';
             const filtered = termsData.filter(item => {
                 const matchesSearch = item.term.toLowerCase().includes(searchText.toLowerCase()) || item.definition.includes(searchText);
-                const matchesType = currentFilter === 'all' || item.type === currentFilter;
+                // حذف شرط الـ 'all'
+                const matchesType = item.type === currentFilter;
                 return matchesSearch && matchesType;
             });
 

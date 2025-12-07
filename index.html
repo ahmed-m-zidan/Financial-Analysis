@@ -70,6 +70,20 @@
 
                 <div class="w-px bg-slate-300 mx-1 self-center h-8"></div> <!-- Separator -->
 
+                <!-- تمويل الملكية -->
+                <button onclick="filterByCategory('equity')" class="filter-btn px-4 py-2 rounded-xl border border-slate-200 text-slate-600 bg-white flex flex-col items-center justify-center min-w-[120px] hover:shadow-md transition-all">
+                    <span class="font-bold text-sm">تمويل الملكية</span>
+                    <span class="text-[10px] font-normal opacity-80">Equity Financing</span>
+                </button>
+
+                <!-- تمويل الديون -->
+                <button onclick="filterByCategory('debt')" class="filter-btn px-4 py-2 rounded-xl border border-slate-200 text-slate-600 bg-white flex flex-col items-center justify-center min-w-[120px] hover:shadow-md transition-all">
+                    <span class="font-bold text-sm">تمويل الديون</span>
+                    <span class="text-[10px] font-normal opacity-80">Debt Financing</span>
+                </button>
+
+                <div class="w-px bg-slate-300 mx-1 self-center h-8"></div> <!-- Separator -->
+
                 <button onclick="filterByCategory('solvency')" class="filter-btn px-4 py-2 rounded-xl border border-slate-200 text-slate-600 bg-white flex flex-col items-center justify-center min-w-[110px] hover:shadow-md transition-all">
                     <span class="font-bold text-sm">نسب الملاءة</span>
                     <span class="text-[10px] font-normal opacity-80">Solvency Ratios</span>
@@ -102,7 +116,7 @@
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-8 flex-grow">
         <div class="mb-6 flex items-center justify-between">
-            <h2 id="sectionTitle" class="text-lg font-bold text-slate-800 term-title border-r-4 border-blue-500 pr-3">مصطلحات مالية عامة</h2>
+            <h2 id="sectionTitle" class="text-lg font-bold text-slate-800 term-title border-r-4 border-blue-500 pr-3">تمويل الديون (Debt Financing)</h2>
             <span class="text-xs text-slate-500 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">العدد: <span id="countTerms" class="font-bold text-slate-800">0</span></span>
         </div>
 
@@ -125,62 +139,114 @@
 
     <script>
         const termsData = [
-            // ================= مصطلحات مالية (مدمجة) =================
-            // --- الإضافات الجديدة من الصور (مفصلة) ---
-            
-            // 1. Types of Loans
-            { 
-                id: 1001, 
-                term: "Types of Loans", 
-                definition: "أنواع القروض الشائعة:\n\n1️⃣ **Term Loans:** قروض بأجل استحقاق محدد وتتضمن عادة سداداً دورياً لأصل الدين.\n2️⃣ **Revolving Credit Facilities:** تسهيلات ائتمانية متجددة تمنح المقترض الحق (وليس الالتزام) بسحب القرض عند الحاجة.\n3️⃣ **Standby Facilities:** خطوط ائتمان تُستخدم فقط في الظروف الاستثنائية.\n4️⃣ **Leasing:** التأجير التمويلي، حيث يظل الأصل ملكاً للمؤجر.", 
-                category: "مصطلحات مالية", 
-                type: "financial_terms", 
-                color: "bg-purple-100 text-purple-700" 
-            },
-
-            // 2. Bond Interest Types
-            { 
-                id: 1002, 
-                term: "Bond Interest Types", 
-                definition: "أنواع الفائدة على السندات:\n\n1️⃣ **Fixed Rate:** سندات ذات عائد ثابت (كوبون ثابت) طوال فترة السند.\n2️⃣ **Floating Rate:** سندات ذات عائد متغير مرتبط بمؤشر سعر فائدة (مثل LIBOR).\n3️⃣ **Zero Coupon:** سندات لا تدفع فوائد دورية، وتُباع بخصم من قيمتها الاسمية (الربح هو الفرق عند الاستحقاق).\n4️⃣ **Callable:** سندات يحق للمصدر استردادها (سدادها) قبل تاريخ الاستحقاق.", 
-                category: "مصطلحات مالية", 
-                type: "financial_terms", 
-                color: "bg-purple-100 text-purple-700" 
-            },
-
-            // 3. Special Bonds
-            { 
-                id: 1003, 
-                term: "Convertible & Warrant Bonds", 
-                definition: "السندات ذات الميزات الخاصة:\n\n1️⃣ **Convertible Bonds (سندات قابلة للتحويل):**\n- تصدر للعامة.\n- يمكن استبدالها بأسهم عادية في الشركة المصدرة.\n\n2️⃣ **Bonds with Warrants (سندات مع خيارات شراء):**\n- شائعة في الطرح الخاص.\n- يمكن فصل 'الخيار' (Warrant) وبيعه بشكل منفصل.\n- تحصل الشركة على نقد إضافي عندما يمارس حامل السند حقه في شراء الأسهم.", 
-                category: "مصطلحات مالية", 
-                type: "financial_terms", 
-                color: "bg-purple-100 text-purple-700" 
-            },
-
+            // ================= تمويل الديون (Debt Financing) - القسم الجديد =================
             { 
                 id: 1004, 
                 term: "Debt Financing Overview", 
-                definition: "خيارات التمويل بالديون حسب الغرض:\n\n🔹 **لتمويل رأس المال العامل (Operations):**\n- السحب على المكشوف (Overdraft).\n- خطوط الائتمان التشغيلية.\n\n🔹 **لشراء الأصول (Assets):**\n- القروض لأجل (Term Loans).", 
-                category: "مصطلحات مالية", 
-                type: "financial_terms", 
+                definition: "نظرة عامة على خيارات التمويل بالديون حسب الغرض:\n\n🔹 **لتمويل رأس المال العامل (Working Capital):**\n- **Overdraft:** السحب على المكشوف.\n- **Operating Line of Credit:** خط ائتمان تشغيلي.\n\n🔹 **لشراء الأصول (Purchase Assets):**\n- **Term Loans:** القروض لأجل محدد.", 
+                category: "تمويل الديون", 
+                type: "debt", 
                 color: "bg-purple-100 text-purple-700" 
             },
-
-
+            // --- تم التحديث ليشمل القروض فقط هنا ---
+            { 
+                id: 1001, 
+                term: "Types of Loans", 
+                definition: "أنواع القروض الشائعة:\n\n1️⃣ **Term Loans (قروض لأجل):** قروض بأجل استحقاق محدد وعادة ما تتضمن سداداً دورياً لأصل الدين.\n2️⃣ **Revolving Credit Facilities (تسهيلات متجددة):** تمنح المقترض الحق (وليس الالتزام) بسحب القرض عند الحاجة.\n3️⃣ **Standby Facilities (تسهيلات مساندة):** خطوط ائتمان تُستخدم فقط في الظروف الاستثنائية (مثل دعم الأوراق التجارية).\n4️⃣ **Leasing (التأجير):** عندما يتم استئجار الأصل، يظل ملكاً للمؤجر. تختلف المعالجة المحاسبية حسب نوع العقد.", 
+                category: "تمويل الديون", 
+                type: "debt", 
+                color: "bg-purple-100 text-purple-700" 
+            },
+            // --- بطاقة منفصلة لأنواع التأجير ---
+            { 
+                id: 1005, 
+                term: "Leasing Types", 
+                definition: "أنواع عقود التأجير (Leasing):\n\n🔹 **Capital/Finance Lease (تأجير تمويلي/رأسمالي):**\n- عادة ما يكون طويل الأجل.\n- تنتقل معظم مخاطر ومنافع الملكية إلى المستأجر (يُعامل كأنه شراء أصل).\n\n🔹 **Operating Lease (تأجير تشغيلي):**\n- عادة ما يكون قصير الأجل.\n- لا تنتقل المخاطر والمنافع إلى المستأجر (يُعامل كمصروف إيجار عادي).", 
+                category: "تمويل الديون", 
+                type: "debt", 
+                color: "bg-purple-100 text-purple-700" 
+            },
+            { 
+                id: 1002, 
+                term: "Bond Interest Types", 
+                definition: "أنواع الفائدة على السندات:\n\n1️⃣ **Fixed Rate:** عائد ثابت (كوبون) طوال الفترة.\n2️⃣ **Floating Rate:** عائد متغير مرتبط بمؤشر (مثل LIBOR).\n3️⃣ **Zero Coupon:** لا تدفع فوائد دورية، تباع بخصم والربح عند الاستحقاق.\n4️⃣ **Callable:** يحق للمصدر استردادها قبل تاريخ الاستحقاق.", 
+                category: "تمويل الديون", 
+                type: "debt", 
+                color: "bg-purple-100 text-purple-700" 
+            },
+            { 
+                id: 1003, 
+                term: "Special Bonds", 
+                definition: "السندات ذات الميزات الخاصة:\n\n1️⃣ **Convertible Bonds (قابلة للتحويل):**\n- يمكن استبدالها بأسهم عادية في الشركة.\n\n2️⃣ **Bonds with Warrants (مع خيارات شراء):**\n- يمكن فصل 'الخيار' (Warrant) وبيعه.\n- تمنح الحق في شراء أسهم بسعر محدد.", 
+                category: "تمويل الديون", 
+                type: "debt", 
+                color: "bg-purple-100 text-purple-700" 
+            },
             { 
                 id: 999, 
                 term: "Debt (IBL)", 
-                definition: "في سياق نسب الملاءة (Solvency)، كلمة Debt لا تعني إجمالي الخصوم (Total Liabilities)، بل تعني تحديداً **الالتزامات المحملة بالفوائد** مثل القروض والسندات.\n\nوهي لا تشمل الالتزامات التشغيلية مثل حسابات الموردين (Accounts Payable).", 
-                category: "مصطلحات مالية", 
-                type: "financial_terms", 
+                definition: "تعريف الدين في التحليل المالي:\n\nكلمة Debt هنا لا تعني إجمالي الخصوم (Total Liabilities)، بل تعني تحديداً **الالتزامات المحملة بالفوائد (Interest-Bearing Liabilities)** مثل القروض والسندات.\n\nوهي لا تشمل الالتزامات التشغيلية مثل حسابات الموردين.", 
+                category: "تمويل الديون", 
+                type: "debt", 
                 color: "bg-purple-100 text-purple-700",
                 abbreviations: [
                     { key: "IBL", full: "Interest-Bearing Liabilities", meaning: "الالتزامات المحملة بالفائدة" }
                 ]
             },
-            
-            // --- (CAPM) ---
+
+            // ================= تمويل الملكية (Equity Financing) =================
+            { 
+                id: 5001, 
+                term: "Common Shares", 
+                definition: "الأسهم العادية: تمثل ملكية في الشركة وتمنح حاملها الحقوق التالية:\n\n1️⃣ **حق التصويت (Voting Rights):** التصويت على تعيين مجلس الإدارة.\n2️⃣ **الملكية (Ownership):** حصة متساوية في الأرباح بعد سداد الالتزامات للدائنين وحملة الأسهم الممتازة.\n3️⃣ **المطالبة المتبقية (Residual Claim):** حق في ما يتبقى من أصول الشركة (بعد التصفية) والتحكم النهائي في شؤونها.", 
+                category: "تمويل الملكية", 
+                type: "equity", 
+                color: "bg-blue-100 text-blue-700" 
+            },
+            { 
+                id: 5002, 
+                term: "Preferred Shares", 
+                definition: "الأسهم الممتازة: لها خصائص مميزة عن الأسهم العادية:\n\n1️⃣ **تراكمية (Cumulative):** تضمن حق حاملها في أرباح ثابتة، وإذا لم تُدفع تتراكم كديون.\n2️⃣ **مشاركة (Participating):** قد تشارك في فائض أرباح الشركة بالإضافة للربح الثابت.\n3️⃣ **قابلة للاسترداد (Redeemable):** يمكن استردادها في تاريخ مستقبلي محدد.\n4️⃣ **قابلة للتحويل (Convertible):** يمكن تحويلها لأسهم عادية بسعر وتاريخ محددين.", 
+                category: "تمويل الملكية", 
+                type: "equity", 
+                color: "bg-blue-100 text-blue-700" 
+            },
+            { 
+                id: 5003, 
+                term: "Retained Earnings", 
+                definition: "الأرباح المحتجزة: هي صافي الأرباح التراكمية للشركة بعد خصم توزيعات الأرباح (Dividends) التي تم دفعها للمساهمين.\n\nتسمى 'محتجزة' لأنها لم توزع على المساهمين، بل تم الاحتفاظ بها داخل الشركة لإعادة استثمارها أو سداد الديون.", 
+                category: "تمويل الملكية", 
+                type: "equity", 
+                color: "bg-blue-100 text-blue-700" 
+            },
+
+            // ================= أدوات التحليل (Analysis Tools) =================
+            { 
+                id: 6001, 
+                term: "Benchmarking", 
+                definition: "المقارنة المعيارية: عملية مقارنة أداء الشركة ونسبها المالية مع معايير خارجية.\n\n📊 **طرق المقارنة:**\n- مقارنة مع شركتين منافستين أو أكثر.\n- مقارنة مع متوسط الصناعة (Industry Average).\n\n🔍 **مصادر المعلومات:**\n- المواقع الرسمية (EDGAR, SEDAR, RNS).\n- مواقع علاقات المستثمرين للمنافسين.\n- المواقع المالية (Google Finance, MSN Money) - توفر بيانات تاريخية ولكن بتحكم قليل.\n- المصادر الاحترافية (Bloomberg, Capital IQ) - توفر معلومات دقيقة ولكنها مكلفة.", 
+                category: "أدوات التحليل", 
+                type: "analysis", 
+                color: "bg-indigo-100 text-indigo-700" 
+            },
+            { id: 10, term: "Technical Analysis", definition: "التحليل الفني: دراسة حركة الأسعار السابقة لتوقع المستقبل.", category: "أنواع التحليل", type: "analysis", color: "bg-indigo-100 text-indigo-700" },
+            { id: 11, term: "Fundamental Analysis", definition: "التحليل الأساسي: تقييم القيمة الحقيقية للشركة بناءً على البيانات المالية.", category: "أنواع التحليل", type: "analysis", color: "bg-indigo-100 text-indigo-700" },
+            { id: 12, term: "Vertical Analysis", definition: "التحليل الرأسي (Common-Size): تحويل الأرقام إلى نسب مئوية من الإجمالي لمقارنة الأحجام المختلفة.", category: "أدوات التحليل", type: "analysis", color: "bg-indigo-100 text-indigo-700" },
+            { 
+                id: 13, 
+                term: "Horizontal Analysis", 
+                definition: "التحليل الأفقي (Trend Analysis): مقارنة أداء الشركة عبر الزمن لتحديد الاتجاهات. يتم تطبيقه بطريقتين:\n\n1. معدلات النمو السنوي (Annual Growth Rates): حساب نسبة التغير لكل سنة مقارنة بالسنة السابقة مباشرة.\n\n2. سنة الأساس (Base Year): اختيار سنة مرجعية (تساوي 100%) ومقارنة كل السنوات اللاحقة بها.", 
+                category: "أدوات التحليل", 
+                type: "analysis", 
+                color: "bg-indigo-100 text-indigo-700",
+                formula: "<span class='text-xs text-slate-400 block mb-1'>1. Growth Rate Equation:</span>(Current - Previous) ÷ Previous<hr class='my-3 border-slate-200'><span class='text-xs text-slate-400 block mb-1'>2. Base Year Equation:</span>(Current ÷ Base Year) × 100",
+                abbreviations: [
+                    { key: "Base Year", full: "Reference Year", meaning: "سنة الأساس (المرجع = 100%)" },
+                    { key: "CAGR", full: "Compound Annual Growth Rate", meaning: "معدل النمو السنوي المركب" }
+                ]
+            },
+
+            // ================= مصطلحات مالية (مدمجة) =================
             { 
                 id: 1000, 
                 term: "CAPM", 
@@ -193,7 +259,6 @@
                     { key: "Sharpe", full: "Sharpe Ratio", meaning: "نسبة شارب (العائد مقابل التقلب)" }
                 ]
             },
-
             { id: 1, term: "Determine", definition: "يُحَدِّد أو يقرر (مثل تحديد الصحة المالية).", category: "مصطلحات مالية", type: "financial_terms", color: "bg-slate-100 text-slate-600" },
             { id: 2, term: "Thorough", definition: "شامل أو دقيق (Thorough Analysis).", category: "مصطلحات مالية", type: "financial_terms", color: "bg-slate-100 text-slate-600" },
             { id: 3, term: "Surrounding", definition: "محيطة (الظروف المحيطة Surrounding circumstances).", category: "مصطلحات مالية", type: "financial_terms", color: "bg-slate-100 text-slate-600" },
@@ -201,7 +266,6 @@
             { id: 5, term: "Falling", definition: "ينخفض / هابط.", category: "مصطلحات مالية", type: "financial_terms", color: "bg-slate-100 text-slate-600" },
             { id: 6, term: "Improving", definition: "يتحسن (تطور إيجابي).", category: "مصطلحات مالية", type: "financial_terms", color: "bg-slate-100 text-slate-600" },
             { id: 7, term: "Declining", definition: "يتراجع (انخفاض في الأداء).", category: "مصطلحات مالية", type: "financial_terms", color: "bg-slate-100 text-slate-600" },
-            
             { id: 20, term: "Financial Health", definition: "الصحة المالية: الحالة العامة لاستقرار الشركة.", category: "مصطلحات مالية", type: "financial_terms", color: "bg-purple-100 text-purple-700" },
             { id: 21, term: "Intrinsic Value", definition: "القيمة الجوهرية: القيمة الحقيقية للسهم (العادلة).", category: "مصطلحات مالية", type: "financial_terms", color: "bg-purple-100 text-purple-700" },
             { id: 22, term: "Balance Sheet", definition: "الميزانية العمومية: أصول وخصوم الشركة في لحظة معينة.", category: "قوائم مالية", type: "financial_terms", color: "bg-orange-100 text-orange-700" },
@@ -290,24 +354,6 @@
                 type: "liquidity", 
                 color: "bg-cyan-100 text-cyan-700", 
                 formula: "(Cash + Cash Equivalents) ÷ Current Liabilities" 
-            },
-
-            // ================= أدوات التحليل (Analysis Tools) =================
-            { id: 10, term: "Technical Analysis", definition: "التحليل الفني: دراسة حركة الأسعار السابقة لتوقع المستقبل.", category: "أنواع التحليل", type: "analysis", color: "bg-indigo-100 text-indigo-700" },
-            { id: 11, term: "Fundamental Analysis", definition: "التحليل الأساسي: تقييم القيمة الحقيقية للشركة بناءً على البيانات المالية.", category: "أنواع التحليل", type: "analysis", color: "bg-indigo-100 text-indigo-700" },
-            { id: 12, term: "Vertical Analysis", definition: "التحليل الرأسي (Common-Size): تحويل الأرقام إلى نسب مئوية من الإجمالي لمقارنة الأحجام المختلفة.", category: "أدوات التحليل", type: "analysis", color: "bg-indigo-100 text-indigo-700" },
-            { 
-                id: 13, 
-                term: "Horizontal Analysis", 
-                definition: "التحليل الأفقي (Trend Analysis): مقارنة أداء الشركة عبر الزمن لتحديد الاتجاهات. يتم تطبيقه بطريقتين:\n\n1. معدلات النمو السنوي (Annual Growth Rates): حساب نسبة التغير لكل سنة مقارنة بالسنة السابقة مباشرة.\n\n2. سنة الأساس (Base Year): اختيار سنة مرجعية (تساوي 100%) ومقارنة كل السنوات اللاحقة بها.", 
-                category: "أدوات التحليل", 
-                type: "analysis", 
-                color: "bg-indigo-100 text-indigo-700",
-                formula: "<span class='text-xs text-slate-400 block mb-1'>1. Growth Rate Equation:</span>(Current - Previous) ÷ Previous<hr class='my-3 border-slate-200'><span class='text-xs text-slate-400 block mb-1'>2. Base Year Equation:</span>(Current ÷ Base Year) × 100",
-                abbreviations: [
-                    { key: "Base Year", full: "Reference Year", meaning: "سنة الأساس (المرجع = 100%)" },
-                    { key: "CAGR", full: "Compound Annual Growth Rate", meaning: "معدل النمو السنوي المركب" }
-                ]
             },
 
             // ================= نسب الربحية (Profitability Ratios) =================
@@ -490,8 +536,8 @@
         const countDisplay = document.getElementById('countTerms');
         const sectionTitle = document.getElementById('sectionTitle');
         
-        // تعيين الافتراضي إلى "مصطلحات" لرؤية البطاقة الجديدة مباشرة
-        let currentFilter = 'financial_terms';
+        // تعيين الافتراضي إلى "تمويل الديون" لرؤية الإضافة الجديدة
+        let currentFilter = 'debt';
 
         function speak(text) {
             if ('speechSynthesis' in window) {
@@ -574,6 +620,8 @@
 
             const titles = {
                 'analysis': 'أدوات وأنواع التحليل',
+                'equity': 'تمويل الملكية (Equity Financing)',
+                'debt': 'تمويل الديون (Debt Financing)',
                 'liquidity': 'نسب السيولة (Liquidity Ratios)',
                 'profitability': 'نسب الربحية (Performance)',
                 'efficiency': 'نسب الكفاءة (Performance)',
